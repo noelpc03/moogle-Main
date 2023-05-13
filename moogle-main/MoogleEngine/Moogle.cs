@@ -19,21 +19,21 @@ public static class Moogle
          else if (Exit.Count==1)
         {
             SearchItem [] items = new SearchItem[1]{
-            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)], Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Exit.SearchWord(Query.QueryModified,Vocabulary.documents[Exit.PositionMax(Vocabulary.Texts)])) , Exit.Approach(Vocabulary.Texts,0))};
+            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)], Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Query.QueryModified) , 0.9f)};
             return new SearchResult(items, query);
         }
          if (Exit.Count==2)
         {
             SearchItem [] items = new SearchItem[2] {
-            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Exit.SearchWord(Query.QueryModified,Vocabulary.documents[Exit.PositionMax(Vocabulary.Texts)])) , Exit.Approach(Vocabulary.Texts,0)),
-            new SearchItem(Vocabulary.files[Exit.PositionSecondMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionSecondMax(Vocabulary.Texts)].Item1,Exit.SearchWord(Query.QueryModified,Vocabulary.documents[Exit.PositionSecondMax(Vocabulary.Texts)])), Exit.Approach(Vocabulary.Texts,1))};
+            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Query.QueryModified) , 0.9f),
+            new SearchItem(Vocabulary.files[Exit.PositionSecondMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionSecondMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.7f)};
              return new SearchResult(items, query);
         }
         else {
             SearchItem [] items = new SearchItem[3] {
-            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Exit.SearchWord(Query.QueryModified,Vocabulary.documents[Exit.PositionMax(Vocabulary.Texts)])), Exit.Approach(Vocabulary.Texts,0)),
-            new SearchItem(Vocabulary.files[Exit.PositionSecondMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionSecondMax(Vocabulary.Texts)].Item1,Exit.SearchWord(Query.QueryModified,Vocabulary.documents[Exit.PositionSecondMax(Vocabulary.Texts)])), Exit.Approach(Vocabulary.Texts,1)),
-            new SearchItem(Vocabulary.files[Exit.PositionThirdMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionThirdMax(Vocabulary.Texts)].Item1,Exit.SearchWord(Query.QueryModified,Vocabulary.documents[Exit.PositionThirdMax(Vocabulary.Texts)])), Exit.Approach(Vocabulary.Texts,2))};
+            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.9f),
+            new SearchItem(Vocabulary.files[Exit.PositionSecondMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionSecondMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.7f),
+            new SearchItem(Vocabulary.files[Exit.PositionThirdMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionThirdMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.5f)};
         
         
         return new SearchResult(items, query);

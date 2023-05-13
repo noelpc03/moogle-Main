@@ -479,57 +479,59 @@ public static int Counter(List<(string, double)> list)
     
     return counter; // devolver la cantidad de dobles no cero encontrados
 }
-public static float Approach(List<(string, double)> list, int position)
-{
-    float result = 0f; // variable para almacenar el resultado de la aproximación
-    double valor = list[position].Item2; // obtener el doble del valor en la posición indicada
-    result = (float)Math.Round(valor, 2); // aproximar el valor a dos decimales y convertirlo a float
-    
-    return result; 
-}
-    
-    public static int SearchWord(List<string> palabrasQuery, List<string> palabrasDocumento)
-{
-    foreach (string palabra in palabrasQuery)
-    {
-        int posicion = palabrasDocumento.IndexOf(palabra);
-        
-        
-            return posicion;
-        
-    }
-    return -1; 
-      
-}
 
-public static string GetSubstringWithWordAtPosition(string text, int position)
+    
+ public static string GetSubstringWithWordAtPosition(string text, List<string> query)
 {
-    // Eliminamos los espacios y saltos de línea al principio y final del texto
-    text = text.Trim();
-
+    
     // Reemplazamos los saltos de línea por espacios
     text = text.Replace("\n", " ");
 
     // Separar el texto en palabras
-    string[] words = text.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);;
+    string[] words = text.Split(new [] {' '});
 
+    string[] exit = text.Split(new [] {' '});
+    
+    
+    
+    // Normalizar el array 
 
-    // Encontrar el índice de la palabra en la posición entregada
-    int wordIndex = position;
+    for (int i = 0; i < words.Length; i++)
+    {
+        words[i]= words[i].ToLower();
+        words[i] = words[i].Normalize(NormalizationForm.FormD);
+        words[i] = Regex.Replace(words[i], @"[\p{Mn}]", string.Empty);
+    }   
+    // Encontrar el índice de la palabra de la query
+    
+    int wordIndex = FindWordIndex(words,query);
 
     // Definir los límites del substring
     int startIndex = Math.Max(0, wordIndex - 70);
-    int endIndex = Math.Min(words.Length - 1, wordIndex + 69);
-
+    int endIndex = Math.Min(exit.Length - 1, wordIndex + 69);
+    
+    //Crear el nuevo array
+    string [] exit2 = new string [endIndex-startIndex+1];
+    Array.Copy(exit,startIndex,exit2,0,exit2.Length);
+    
     // Construir el substring
-    StringBuilder sb = new StringBuilder();
-    for (int i = startIndex; i <= endIndex; i++)
-    {
-        sb.Append(words[i]);
-        sb.Append(' ');
-    }
+    
+    return String.Join(" ",exit2);
+}
 
-    return sb.ToString().Trim();
+
+
+
+ private static int FindWordIndex(string[] array, List<string> words)
+{
+    for (int i = 0; i < array.Length; i++)
+    {
+        if (words.Contains(array[i]))
+        {
+            return i;
+        }
+    }
+    return 0;
 }
 
     
