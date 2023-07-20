@@ -23,6 +23,6 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
-Ejecution.Part1();
+MoogleEngine.Initializer.Run();
 
 app.Run();

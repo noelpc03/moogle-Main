@@ -1,42 +1,38 @@
 ﻿namespace MoogleEngine;
 
-
 public static class Moogle
 {
-    public static SearchResult Quer(string query) {
-        Ejecution.Part2(query);
-
-         
+    public static SearchResult Query(string query)
+    {
+        Initializer.Search(query); // Realizacion de la busqueda
         
-        if (Exit.Count==0)
+        // Segun la cantidad de textos relevantes se crean los objetos correspondientes
+        if (Initializer.Count == 0) 
         {
-             SearchItem [] items = new SearchItem[1] {
-             new SearchItem("No se encontraron documetos",":(",0f)}; 
-            return new SearchResult(items, query);
-              
-        }
-         
-         else if (Exit.Count==1)
-        {
-            SearchItem [] items = new SearchItem[1]{
-            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)], Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Query.QueryModified) , 0.9f)};
+            SearchItem[] items = new SearchItem[1] {
+            new SearchItem("No se encontraron documetos :(","",0f)};
             return new SearchResult(items, query);
         }
-         if (Exit.Count==2)
+        else if (Initializer.Count == 1)
         {
-            SearchItem [] items = new SearchItem[2] {
-            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Query.QueryModified) , 0.9f),
-            new SearchItem(Vocabulary.files[Exit.PositionSecondMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionSecondMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.7f)};
-             return new SearchResult(items, query);
+            SearchItem[] items = new SearchItem[1]{
+            new SearchItem(Exit.GetName(Initializer.TextAndScore.Keys.ElementAt(0)), Exit.Snippet(Initializer.TextAndScore.Keys.ElementAt(0),Initializer.Query) , 0.9f)};
+            return new SearchResult(items, query);
         }
-        else {
-            SearchItem [] items = new SearchItem[3] {
-            new SearchItem(Vocabulary.files[Exit.PositionMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.9f),
-            new SearchItem(Vocabulary.files[Exit.PositionSecondMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionSecondMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.7f),
-            new SearchItem(Vocabulary.files[Exit.PositionThirdMax(Vocabulary.Texts)],  Exit.GetSubstringWithWordAtPosition(Vocabulary.Texts[Exit.PositionThirdMax(Vocabulary.Texts)].Item1,Query.QueryModified), 0.5f)};
-        
-        
-        return new SearchResult(items, query);
+        else if (Initializer.Count == 2)
+        {
+            SearchItem[] items = new SearchItem[2] {
+            new SearchItem(Exit.GetName(Initializer.TextAndScore.Keys.ElementAt(0)),  Exit.Snippet(Initializer.TextAndScore.Keys.ElementAt(0),Initializer.Query) , 0.9f),
+            new SearchItem(Exit.GetName(Initializer.TextAndScore.Keys.ElementAt(1)),  Exit.Snippet(Initializer.TextAndScore.Keys.ElementAt(1),Initializer.Query), 0.7f)};
+            return new SearchResult(items, query);
+        }
+        else
+        {
+            SearchItem[] items = new SearchItem[3] {
+            new SearchItem(Exit.GetName(Initializer.TextAndScore.Keys.ElementAt(0)),  Exit.Snippet(Initializer.TextAndScore.Keys.ElementAt(0),Initializer.Query), 0.9f),
+            new SearchItem(Exit.GetName(Initializer.TextAndScore.Keys.ElementAt(1)),  Exit.Snippet(Initializer.TextAndScore.Keys.ElementAt(1),Initializer.Query), 0.7f),
+            new SearchItem(Exit.GetName(Initializer.TextAndScore.Keys.ElementAt(2)),  Exit.Snippet(Initializer.TextAndScore.Keys.ElementAt(2),Initializer.Query), 0.5f)};
+            return new SearchResult(items, query);
         }
     }
 }
