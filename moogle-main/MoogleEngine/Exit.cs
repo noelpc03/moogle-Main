@@ -19,26 +19,27 @@ public static class Exit
     }
     public static string Snippet(string doc, Dictionary<string, float> query) //Llamar al texto
     {
+        // Normalizacion del texto
         string text = File.ReadAllText(doc);
         string pattern = @"[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]";
         text = Regex.Replace(text, pattern, " ");
         string[] words = text.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
 
-        int length = 0;
-
-        for (int i = 0; i < words.Length; i++)
+        int position = 0; //Posicion de una de las palabras de la query
+        
+        for (int i = 0; i < words.Length; i++) //Iteracion sobre el texto
         {
-            if (query.ContainsKey(words[i])) { length = i; break; }
+            if (query.ContainsKey(words[i])) { position = i; break; } // Si la query contiene la palabra guarda la posicion y termina de iterar
 
         }
 
-        string b = " ";
-        int start = (length > 20) ? length - 20 : 0;
-        int end = (length + 20 > words.Length) ? words.Length : length + 20;
-        for (int i = start; i < end; i++)
+        string b = " "; // String para mostrar 
+        int start = (position > 20) ? position - 20 : 0; // Inicio de snippet
+        int end = (position + 20 > words.Length) ? words.Length : position + 20; // Final del snippet
+        for (int i = start; i < end; i++) // Iteracion sobre las palabras del texto dentro del conjunto de palabras a mostrar
         {
-            b += words[i] + " ";
+            b += words[i] + " "; // Al string se le va agregando cada palabra con un espacio
         }
         return b;
     }
