@@ -7,7 +7,7 @@ public static class SearchProcess
     public static void FillQuery(string search, Dictionary<string, float> query, Dictionary<string, float> idf)
     {
         query.Clear(); // Limpieza del diccionario para realizar la nueva busqueda
-        
+
         string pattern = @"[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]"; // Caracteres a eliminar de la busqueda(los que no sean alfanumericos)
         search = Regex.Replace(search, pattern, " "); // Eliminacion de los caracteres no deseados de la consulta
         string[] words = search.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries); // Conversion de la consulta en un array de string
@@ -47,13 +47,18 @@ public static class SearchProcess
     }
     public static float[] Cosine(Dictionary<string, Dictionary<string, float>> texts, Dictionary<string, float> query)
     {
+        // texts define los documentos y un diccionario de sus palabras y su
         float[] similarity = new float[texts.Count];
         int count = 0;
         foreach (var text in texts) //Iteracion por cada texto
         {
             double dotProduct = 0.0;
             double queryMagnitude = 0.0;
-            double documentMagnitude = 0.0;
+            double documentMagnitude = 0;
+            foreach (string word in text.Value.Keys)
+            {
+                documentMagnitude += Math.Pow(text.Value[word], 2);
+            }
 
             foreach (var wordandnum in query) // Iteracion por cada palabra de la query
             {
@@ -61,7 +66,6 @@ public static class SearchProcess
                 {
                     dotProduct += query[wordandnum.Key] * texts[text.Key][wordandnum.Key];
                     queryMagnitude += query[wordandnum.Key] * query[wordandnum.Key];
-                    documentMagnitude += texts[text.Key][wordandnum.Key] * texts[text.Key][wordandnum.Key];
                 }
             }
             queryMagnitude = Math.Sqrt(queryMagnitude);
